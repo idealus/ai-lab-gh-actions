@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   train-test-update:
     runs-on: ubuntu-latest
@@ -13,7 +16,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -37,15 +43,10 @@ jobs:
         accuracy=$(python -c "import json; print(json.load(open('assets/metrics.json'))['accuracy'])")
         sed -i "s/{{accuracy}}/${accuracy}/g" docs/index.html
         
-    - name: Commit updated report
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git pull origin main --rebase
         git add docs/index.html assets/
-        git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update: Model metrics and report"
-        
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Model metrics and report" && git push origin HEAD:main)
