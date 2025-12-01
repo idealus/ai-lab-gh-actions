@@ -6,19 +6,13 @@ on:
   pull_request:
     branches: [ main ]
 
-permissions:
-  contents: write
-
 jobs:
-  train-test-update:
+  train-and-test:
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        ref: main
-        fetch-depth: 0
         
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -38,21 +32,7 @@ jobs:
       run: |
         pytest src/test_model.py -v
         
-    - name: Update HTML report
+    - name: Show results
       run: |
-        accuracy=$(python -c "import json; print(json.load(open('assets/metrics.json'))['accuracy'])")
-        sed -i "s/{{accuracy}}/${accuracy}/g" docs/index.html
-        
-    - name: Commit and push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add docs/index.html assets/
-        if git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "Auto-update: Model metrics and report"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main || echo "Push failed, but continuing"
-        fi
+        echo "Model trained successfully!"
+        cat assets/metrics.json
