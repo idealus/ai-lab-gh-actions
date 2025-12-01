@@ -1,137 +1,170 @@
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: #f5f5f7;
-        min-height: 100vh;
-        padding: 20px;
-    }
-    
-    .container {
-        max-width: 900px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        overflow: hidden;
-    }
-    
-    .header {
-        background: white;
-        color: #1d1d1f;
-        padding: 60px 40px 40px;
-        text-align: center;
-        border-bottom: 1px solid #d2d2d7;
-    }
-    
-    .header h1 {
-        font-size: 2.5em;
-        margin-bottom: 10px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
-    
-    .header p {
-        font-size: 1.2em;
-        color: #6e6e73;
-        font-weight: 400;
-    }
-    
-    .content {
-        padding: 40px;
-    }
-    
-    .metric-card {
-        background: linear-gradient(135deg, #0071e3 0%, #005bb5 100%);
-        color: white;
-        padding: 40px;
-        border-radius: 12px;
-        margin-bottom: 30px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0,113,227,0.15);
-    }
-    
-    .metric-card h2 {
-        font-size: 1.3em;
-        margin-bottom: 15px;
-        font-weight: 500;
-        opacity: 0.9;
-    }
-    
-    .metric-value {
-        font-size: 4.5em;
-        font-weight: 600;
-        margin: 20px 0;
-        letter-spacing: -2px;
-    }
-    
-    .section {
-        margin-bottom: 40px;
-    }
-    
-    .section h3 {
-        color: #1d1d1f;
-        font-size: 1.8em;
-        margin-bottom: 20px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-    }
-    
-    .confusion-matrix {
-        text-align: center;
-        margin-top: 20px;
-    }
-    
-    .confusion-matrix img {
-        max-width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-    }
-    
-    .info-box {
-        background: #f5f5f7;
-        padding: 24px;
-        border-radius: 12px;
-        margin: 20px 0;
-    }
-    
-    .info-box p {
-        line-height: 1.6;
-        color: #1d1d1f;
-        margin-bottom: 8px;
-    }
-    
-    .footer {
-        text-align: center;
-        padding: 30px;
-        background: #f5f5f7;
-        color: #6e6e73;
-        font-size: 0.9em;
-    }
-    
-    .badge {
-        display: inline-block;
-        padding: 6px 12px;
-        background: #0071e3;
-        color: white;
-        border-radius: 20px;
-        font-size: 0.85em;
-        margin-top: 10px;
-        font-weight: 500;
-    }
-    
-    @media (max-width: 768px) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Report - Lab 03</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
         .header h1 {
-            font-size: 2em;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .metric-card h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            opacity: 0.9;
         }
         
         .metric-value {
-            font-size: 3em;
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
         }
-    }
-</style>
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h3 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .confusion-matrix {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .confusion-matrix img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            margin: 20px 0;
+        }
+        
+        .info-box p {
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #28a745;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .metric-value {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Model Performance Report</h1>
+            <p>Random Forest Classifier on Iris Dataset</p>
+            <span class="badge">Lab 03 - CI/CD Pipeline</span>
+        </div>
+        
+        <div class="content">
+            <div class="metric-card">
+                <h2>Model Accuracy</h2>
+                <div class="metric-value">{{accuracy}}</div>
+                <p>Percentage of correct predictions</p>
+            </div>
+            
+            <div class="section">
+                <h3>🎯 Confusion Matrix</h3>
+                <div class="confusion-matrix">
+                    <img src="../assets/confusion_matrix.png" alt="Confusion Matrix">
+                </div>
+            </div>
+            
+        
+        <div class="footer">
+            <p>Last Updated: <span id="timestamp"></span></p>
+            <p>Generated automatically by GitHub Actions 🚀</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
